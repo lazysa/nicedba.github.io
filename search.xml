@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>记一次坑爹的hexo排错经历</title>
+    <url>/2020/03/21/a-hexo-error-config/</url>
+    <content><![CDATA[<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>最近换上hexo的next主题后，各种折腾，包括一些第三方配置. 对扩展和配置文件的改动很大。然后就杯具了。</p>
+<p>根据报错信息无从下手，网上搜索也没线索，直接表现就是每次用<code>hexo g</code>编译后，public下生成的文章都是0字节。即编译失败。 </p>
+<h4 id="排错思路"><a href="#排错思路" class="headerlink" title="排错思路"></a>排错思路</h4><p>简单讲下当时怎么解决的</p>
+<h5 id="检查文章格式"><a href="#检查文章格式" class="headerlink" title="检查文章格式"></a>检查文章格式</h5><p>当时的思路是这样的：是不是新增的文章markdown格式有问题呢？于是便把<code>_post</code>目录下的文章先移出来，写了个<code>test.md</code>, 用最简单的格式，再重新编译。问题依旧，排除。</p>
+<h5 id="重新安装hexo和next主题"><a href="#重新安装hexo和next主题" class="headerlink" title="重新安装hexo和next主题"></a>重新安装hexo和next主题</h5><p>重新建了个目录，再来一套。并把旧的主配置文件和主题配置文件复制进来, 还有问题。 </p>
+<h5 id="用默认的配置文件"><a href="#用默认的配置文件" class="headerlink" title="用默认的配置文件"></a>用默认的配置文件</h5><p>恢复默认配置文件，包括主配置文件（站点目录下）, 主题配置文件（主题目录下）, 这下却好了.<br>这里基本确定是配置文件问题了，把旧主配置文件再复制进来，还可以。</p>
+<p>原来，是主题配置文件中有个值配置不对，看来有必要对hexo的配置文件上版本管理了。</p>
+]]></content>
+      <categories>
+        <category>debug</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/03/16/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -20,17 +38,12 @@
 ]]></content>
   </entry>
   <entry>
-    <title>test</title>
-    <url>/2020/03/16/test/</url>
-    <content><![CDATA[<h3 id="哈哈哈"><a href="#哈哈哈" class="headerlink" title="哈哈哈"></a>哈哈哈</h3><h2 id="哈哈"><a href="#哈哈" class="headerlink" title="哈哈"></a>哈哈</h2><h1 id="哈哈-1"><a href="#哈哈-1" class="headerlink" title="哈哈"></a>哈哈</h1>]]></content>
-  </entry>
-  <entry>
-    <title>部署kubernetes-dashboard_api方式</title>
-    <url>/2020/03/15/deploy-kubernetes-dashboard-api/</url>
+    <title>部署kubernetes-dashboard_apiserver方式</title>
+    <url>/2020/03/15/deploy-kubernetes-dashboard_apiserver/</url>
     <content><![CDATA[<p>部署kubernetes-dashboard的方式，也可以理解为归纳为访问kubernetes服务的方式，目前有下面4种方式：</p>
 <ol>
 <li><code>kubectl proxy</code>  （官方推荐，最简单，但必须在master节点上有图形界面）</li>
-<li>通过集群API访问（适用于集群多节点，推荐）</li>
+<li>通过集群APISERVER访问（适用于集群多节点，推荐）</li>
 <li>NodePort端口映射（暴露master节点端口号，安全性不好，只适用于开发环境或单节点环境，不推荐）</li>
 <li>ingress （通过反向代理集成，还没实践过）</li>
 </ol>
@@ -79,11 +92,11 @@
   </entry>
   <entry>
     <title>部署kubernetes-dashboard_NodePort方式</title>
-    <url>/2020/03/15/deploy-kubernetes-dashboard-nodeport/</url>
+    <url>/2020/03/15/deploy-kubernetes-dashboard_nodeport/</url>
     <content><![CDATA[<p>部署kubernetes-dashboard的方式，也可以理解为归纳为访问kubernetes服务的方式，目前有下面4种方式：</p>
 <ol>
 <li><code>kubectl proxy</code>  （官方推荐，最简单，但必须在master节点上有图形界面）</li>
-<li>通过集群API访问（适用于集群多节点，推荐）</li>
+<li>通过集群APISERVER访问（适用于集群多节点，推荐）</li>
 <li>NodePort端口映射（暴露master节点端口号，安全性不好，只适用于开发环境或单节点环境，不推荐）</li>
 <li>ingress （通过反向代理集成，还没实践过）</li>
 </ol>
