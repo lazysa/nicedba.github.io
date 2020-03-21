@@ -20,23 +20,20 @@
     var CONFIG = {"hostname":"blog.opsping.com","root":"/","scheme":"Pisces","version":"7.7.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="关于博主博主陈先生，湖南人。 2010年来到上海，先后做过网络管理员、系统管理员、技术支持等工作.那时候，接过电话线、修过电脑、删过数据、睡过机房.   后面接触到Linux相关技术后，很感兴趣，就开始自学这方面的知识和技能。 2017年, 云计算刚兴起，我开始做运维，但运维的发展方向有很多，网络&#x2F;数据库&#x2F;系统&#x2F;应用，各种技术层出不穷，我也迷茫。 2018年3月，怀着年少时候的情怀，来到深圳，在南">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="https://blog.opsping.com/about/index.html">
+  <meta name="description" content="前段时间，nginx的访问日志里有很多&#x2F;otsmobile&#x2F;app&#x2F;mgs&#x2F;mgw.htm?operationType mobile.12306.cn 这样的404报错。后来通过实践，通过正确设置nginx的listen的值，可以有效规避这问题。 什么是恶意域名解析？因为IP地址不方便记忆，我们通常上网一般都是通过域名发出请求，通过DNS系统来转换成具体IP地址。当然，也可以更改客户端的hosts">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx拒绝恶意域名解析设置">
+<meta property="og:url" content="https://blog.opsping.com/2020/03/21/nginx-reject-malicious-resolv/index.html">
 <meta property="og:site_name" content="陈先生的博客">
-<meta property="og:description" content="关于博主博主陈先生，湖南人。 2010年来到上海，先后做过网络管理员、系统管理员、技术支持等工作.那时候，接过电话线、修过电脑、删过数据、睡过机房.   后面接触到Linux相关技术后，很感兴趣，就开始自学这方面的知识和技能。 2017年, 云计算刚兴起，我开始做运维，但运维的发展方向有很多，网络&#x2F;数据库&#x2F;系统&#x2F;应用，各种技术层出不穷，我也迷茫。 2018年3月，怀着年少时候的情怀，来到深圳，在南">
+<meta property="og:description" content="前段时间，nginx的访问日志里有很多&#x2F;otsmobile&#x2F;app&#x2F;mgs&#x2F;mgw.htm?operationType mobile.12306.cn 这样的404报错。后来通过实践，通过正确设置nginx的listen的值，可以有效规避这问题。 什么是恶意域名解析？因为IP地址不方便记忆，我们通常上网一般都是通过域名发出请求，通过DNS系统来转换成具体IP地址。当然，也可以更改客户端的hosts">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-03-08T09:03:28.000Z">
-<meta property="article:modified_time" content="2020-03-15T11:36:54.504Z">
+<meta property="article:published_time" content="2020-03-21T08:44:38.000Z">
+<meta property="article:modified_time" content="2020-03-21T09:22:18.928Z">
 <meta property="article:author" content="陈先生">
-<meta property="article:tag" content="运维">
-<meta property="article:tag" content="技术">
-<meta property="article:tag" content="博客">
-<meta property="article:tag" content="生活">
+<meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://blog.opsping.com/about/">
+<link rel="canonical" href="https://blog.opsping.com/2020/03/21/nginx-reject-malicious-resolv/">
 
 
 <script id="page-configurations">
@@ -44,7 +41,7 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false
+    isPost : true
   };
 </script>
 <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/theme-next/theme-next-needmoreshare2@1/needsharebutton.min.css"><style>
@@ -61,8 +58,7 @@
   padding: 1px 4px;
 }
 </style>
-  <title>about | 陈先生的博客
-  </title>
+  <title>nginx拒绝恶意域名解析设置 | 陈先生的博客</title>
   
 
 
@@ -209,55 +205,146 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.opsping.com/2020/03/21/nginx-reject-malicious-resolv/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="陈先生">
+      <meta itemprop="description" content="学习，记录，分享, 学习">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈先生的博客">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          nginx拒绝恶意域名解析设置
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">about
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2020-03-21 16:44:38 / 修改时间：17:22:18" itemprop="dateCreated datePublished" datetime="2020-03-21T16:44:38+08:00">2020-03-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">安全</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2020/03/21/nginx-reject-malicious-resolv/" class="post-meta-item leancloud_visitors" data-flag-title="nginx拒绝恶意域名解析设置" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2020/03/21/nginx-reject-malicious-resolv/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2020/03/21/nginx-reject-malicious-resolv/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-clock-o"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前段时间，nginx的访问日志里有很多<code>/otsmobile/app/mgs/mgw.htm?operationType</code> <code>mobile.12306.cn</code> 这样的404报错。后来通过实践，通过正确设置nginx的listen的值，可以有效规避这问题。</p>
+<h4 id="什么是恶意域名解析？"><a href="#什么是恶意域名解析？" class="headerlink" title="什么是恶意域名解析？"></a>什么是恶意域名解析？</h4><p>因为IP地址不方便记忆，我们通常上网一般都是通过域名发出请求，通过DNS系统来转换成具体IP地址。<br>当然，也可以更改客户端的hosts文件（优先级比DNS更高）, 于是也有攻击者，把其他网站域名和被攻击IP关联，比如：<br><code>120.79.66.66 www.abc.com</code>，最终，从这台电脑上发出到<a href="http://www.abc.com任意请求都会被解析到120.79.66.66上。">www.abc.com任意请求都会被解析到120.79.66.66上。</a></p>
+<p>最终导致带宽被占满，正常服务受影响。</p>
+<h4 id="nginx的listen设置"><a href="#nginx的listen设置" class="headerlink" title="nginx的listen设置"></a>nginx的listen设置</h4><p>关于listen中的default_server，官网是这样解释的：<code>The default_server parameter, if present, will cause the server to become the default server for the specified address:port pair. If none of the directives have the default_server parameter then the first server with the address:port pair will be the default server for this pair.</code> 也就是说，如果设置了default_server，可以配合<code>server_name _</code> （匹配没找到有效的server_name）</p>
+<p>下方配置放在nginx配置文件的最后，当请求$host没有在nginx中匹配到时，交给default_server，最后返回444状态码（不返回信息，直接关闭连接）</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span>      <span class="number">80</span> default_server;</span><br><span class="line">        <span class="attribute">listen</span> [::]:<span class="number">80</span> default_server;</span><br><span class="line">        <span class="attribute">server_name</span>  _;</span><br><span class="line">        <span class="attribute">return</span> <span class="number">444</span>;</span><br><span class="line">        <span class="attribute">access_log</span> /var/log/opsping.com_deny.log;</span><br><span class="line">        <span class="attribute">error_log</span> /var/log/opsping.com_deny.log;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span>      <span class="number">443</span> http2 default_server;</span><br><span class="line">        <span class="attribute">listen</span> [::]:<span class="number">443</span> http2 default_server;</span><br><span class="line">        <span class="attribute">server_name</span>  _;</span><br><span class="line">        <span class="attribute">ssl_certificate</span> <span class="string">"ssl/3635348_opsping.com.pem"</span>;</span><br><span class="line">        <span class="attribute">ssl_certificate_key</span> <span class="string">"ssl/3635348_opsping.com.key"</span>;</span><br><span class="line">        <span class="attribute">ssl_session_cache</span> shared:SSL:<span class="number">1m</span>;</span><br><span class="line">        <span class="attribute">ssl_session_timeout</span>  <span class="number">10m</span>;</span><br><span class="line">        <span class="attribute">ssl_ciphers</span> ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;</span><br><span class="line">        <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">on</span>;</span><br><span class="line">        <span class="attribute">return</span> <span class="number">444</span>;</span><br><span class="line">        <span class="attribute">access_log</span> /var/log/opsping.com_deny.log;</span><br><span class="line">        <span class="attribute">error_log</span> /var/log/opsping.com_deny.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="实际效果"><a href="#实际效果" class="headerlink" title="实际效果"></a>实际效果</h4><p>reload nginx后，访问<a href="http://www.abc.com可以在访问日志中看到，请求已经被关闭">http://www.abc.com可以在访问日志中看到，请求已经被关闭</a><br><code># tail -f /var/log/opsping.com_deny.log</code> </p>
+<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">113.87.227.235</span> - - <span class="string">[21/Mar/2020:14:07:43 +0800]</span> <span class="string">"<span class="keyword">GET</span> /favicon.ico HTTP/1.1"</span> <span class="number">444</span> <span class="number">0</span> <span class="string">"http://www.abc.com/"</span> <span class="string">"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36"</span></span><br><span class="line"><span class="number">80.82.70.187</span> - - <span class="string">[21/Mar/2020:16:52:35 +0800]</span> <span class="string">"<span class="keyword">GET</span> http://www.baidu.com/cache/global/img/gs.gif HTTP/1.1"</span> <span class="number">444</span> <span class="number">0</span> <span class="string">"-"</span> <span class="string">"Mozilla"</span></span><br><span class="line"><span class="number">80.82.70.187</span> - - <span class="string">[21/Mar/2020:16:52:37 +0800]</span> <span class="string">"<span class="keyword">GET</span> http://www.baidu.com/cache/global/img/gs.gif HTTP/1.1"</span> <span class="number">444</span> <span class="number">0</span> <span class="string">"-"</span> <span class="string">"Mozilla"</span></span><br><span class="line"><span class="number">139.162.88.63</span> - - <span class="string">[21/Mar/2020:17:16:14 +0800]</span> <span class="string">"<span class="keyword">GET</span> http://clientapi.ipip.net/echo.php?info=1234567890 HTTP/1.1"</span> <span class="number">444</span> <span class="number">0</span> <span class="string">"-"</span> <span class="string">"Go-http-client/1.1"</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+    </div>
+
+    
+    
+    <div class="post-widgets">
+      <div id="needsharebutton-postbottom">
+        <span class="btn">
+          <i class="fa fa-share-alt" aria-hidden="true"></i>
+        </span>
+      </div>
+    </div>
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/nginx/" rel="tag"># nginx</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/03/21/a-hexo-error-config/" rel="prev" title="记一次坑爹的hexo排错经历">
+      <i class="fa fa-chevron-left"></i> 记一次坑爹的hexo排错经历
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <h3 id="关于博主"><a href="#关于博主" class="headerlink" title="关于博主"></a>关于博主</h3><p>博主陈先生，湖南人。</p>
-<p>2010年来到上海，先后做过网络管理员、系统管理员、技术支持等工作.<br>那时候，接过电话线、修过电脑、删过数据、睡过机房.  </p>
-<p>后面接触到Linux相关技术后，很感兴趣，就开始自学这方面的知识和技能。</p>
-<p>2017年, 云计算刚兴起，我开始做运维，但运维的发展方向有很多，网络/数据库/系统/应用，各种技术层出不穷，我也迷茫。</p>
-<p>2018年3月，怀着年少时候的情怀，来到深圳，在南山一个区块链创业公司做运维。<br>做了一些数字货币，交易所等项目。5-10个项目，刚开始，挺累的，我那时经常背电脑出去约会。</p>
-<p>2018年10-11月，正是整个区块链行业风雨飘摇的时期，公司被迫解散。</p>
-<p>2019年12月，我在福田一个小公司继续做运维</p>
-<h3 id="关于博客"><a href="#关于博客" class="headerlink" title="关于博客"></a>关于博客</h3><p>刚开始我一直在技术社区上写博客。<br>后面不满足，想自己搞，从wordpress开始入坑的，那时候还有不少免费VPS，虽然不是很稳定。<br>也用过jekyll到现在的hexo。</p>
-<p>说来惭愧，我至今写过的博客没超过100篇，现在希望还不会太晚。</p>
-<p>我希望通过写博客，可以让我的心沉静下来，反省自己，也更好地去思考。</p>
-<p>与大家共勉！</p>
-
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
   </div>
 
 
@@ -310,7 +397,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于博主"><span class="nav-number">1.</span> <span class="nav-text">关于博主</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于博客"><span class="nav-number">2.</span> <span class="nav-text">关于博客</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是恶意域名解析？"><span class="nav-number">1.</span> <span class="nav-text">什么是恶意域名解析？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx的listen设置"><span class="nav-number">2.</span> <span class="nav-text">nginx的listen设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实际效果"><span class="nav-number">3.</span> <span class="nav-text">实际效果</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
